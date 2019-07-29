@@ -1,11 +1,13 @@
 {
-  "name": "three-js-testing",
-  "version": "0.1.0",
+  "name": "gi-testing",
+  "version": "0.0.0",
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "three": "^0.106.2",
+    "three-orbitcontrols": "^2.102.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -27,5 +29,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
 }
