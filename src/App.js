@@ -1,6 +1,7 @@
 import React from 'react'
 import * as THREE from 'three'
 import OrbitControls from 'three-orbitcontrols'
+import { ShaderTexture } from './ShaderTexture.js'
 
 export default class App extends React.Component {
   cameraRef
@@ -23,10 +24,9 @@ export default class App extends React.Component {
     this.renderer.setClearColor(0xEEEEEE)
     this.renderer.shadowMapEnabled = true
     this.renderer.shadowMapType = THREE.PCFSoftShadowMap
-
     document.body.appendChild(this.renderer.domElement)
     const geometry = new THREE.BoxGeometry(1, 1, 1)
-    const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 })
+    const material = new THREE.MeshLambertMaterial({ color: 0xfffffff })
     this.cube = new THREE.Mesh(geometry, material)
     this.cube.receiveShadow = true
     this.cube.castShadow = true
@@ -46,6 +46,28 @@ export default class App extends React.Component {
     const ambLight = new THREE.AmbientLight( 0x404040 )
     this.scene.add(ambLight)
     this.animate()
+  }
+
+  initializeGlobalIllumination = () => {
+    const renderRT = new THREE.WebGLRenderTarget( 32, 32, {
+      wrapS: THREE.ClampToEdgeWrapping,
+      wrapT: THREE.ClampToEdgeWrapping,
+      stencilBuffer: false,
+      depthBuffer: true
+    });
+    const scaleShader = new THREE.RawShaderMaterial( {
+      uniforms:{
+        tInput: { type: 't', value: renderRT.texture }
+      },
+      vertexShader: document.getElementById( 'ortho-vs' ).textContent,
+      fragmentShader: document.getElementById( 'scale-fs' ).textContent
+    } )
+    const texture = new ShaderTexture( this.renderer, scaleShader, 1, 1 )
+    texture.fbo.texture.minFilter = THREE.LinearMipMapLinearFilter
+    const position = new THREE.Vector3()
+    const normal = new THREE.Vector3()
+    const wideCamera = new THREE.PerspectiveCamera( 90, 1, .0001, 100 )
+    const buffer = new Uint8Array( 4 )
   }
 
   createContainer = () => {
