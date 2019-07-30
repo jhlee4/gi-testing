@@ -9,15 +9,20 @@
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>React App</title>
   <script type="x-shader/x-vertex" id="object-vs">
+  
       precision highp float;
+  
       attribute vec3 position;
       attribute vec3 normal;
       attribute vec3 color;
+      
       uniform mat4 modelViewMatrix;
       uniform mat4 projectionMatrix;
       uniform mat3 normalMatrix;
       uniform float uCheck;
+      
       varying vec3 vColor;
+      
       void main() {
         vec4 mvPosition = modelViewMatrix * vec4( position, 1. );
         float d = dot( normalize( normalMatrix * normal ), normalize( -mvPosition.xyz ) );
@@ -25,7 +30,7 @@
         if( uCheck == 1. && d < 0. ) vColor = vec3( 0. );
         gl_Position = projectionMatrix * mvPosition;
       }
-  </script>
+    </script>
   <script type="x-shader/x-fragment" id="object-fs">
       precision highp float;
       uniform vec3 uColor;
@@ -51,7 +56,7 @@
       uniform sampler2D tInput;
       varying vec2 vUv;
       void main() {
-        vec4 sum = vec4( 0. );
+        vec4 sum = vec4( 0.1 );
         for( int y = 0; y < 32; y++ ){
           for( int x = 0; x < 32; x++ ){
             vec2 uv = vec2( float( x ), float( y ) ) / 32.;
@@ -62,8 +67,7 @@
         sum /= ( 32. * 32. );
         gl_FragColor = sum;
       }
-  </script>
-  <script src="../src/ShaderTexture.js"></script>
+      </script>
 </head>
 <body>
   <div id="root"></div>
