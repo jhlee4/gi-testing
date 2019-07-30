@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 
 function ShaderTexture( renderer, shader, width, height ) {
+
 	this.renderer = renderer;
 	this.shader = shader;
 	this.orthoScene = new THREE.Scene();
@@ -14,9 +15,12 @@ function ShaderTexture( renderer, shader, width, height ) {
 	this.orthoQuad = new THREE.Mesh( new THREE.PlaneBufferGeometry( width, height ), this.shader );
 	this.orthoScene.add( this.orthoQuad );
 	this.texture = this.fbo.texture;
+	console.log(this)
 
 }
+
 ShaderTexture.prototype.render = function() {
 	this.renderer.render( this.orthoScene, this.orthoCamera, this.fbo );
 }
-export{ ShaderTexture }
+
+export default ShaderTexture
