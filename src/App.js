@@ -228,10 +228,6 @@ export default class App extends React.Component {
     return [plane_b, plane_f, plane_r, plane_l]
   }
 
-  componentDidUpdate() {
-    this.animate()
-  }
-
   animate = () => {
     requestAnimationFrame(this.animate)
     this.controls.update()
